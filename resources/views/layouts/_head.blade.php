@@ -11,7 +11,7 @@
 <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
 
 <!-- jquery ui -->
-<link rel="stylesheet" href="{{ asset('storage/jquery/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}" crossorigin="anonymous" />
+<!-- <link rel="stylesheet" href="{{ asset('storage/jquery/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}" crossorigin="anonymous" /> -->
 
 <!--bootstrap core css-->
 <link rel="stylesheet" href="{{ asset('storage/bootstrap/bootstrap-4.0.0-beta.2-dist/css/bootstrap.min.css') }}" crossorigin="anonymous" />
@@ -24,4 +24,4 @@
 
 <!-- datatables -->
 <!-- <link rel="stylesheet" href="{{ asset('storage/datatables/datatables.min.css') }}" crossorigin="anonymous" /> -->
-<!-- <link rel="stylesheet" href="{{ asset('storage/datatables/DataTables-1.10.16/css/jquery.dataTables.min.css') }}" crossorigin="anonymous" /> -->
+<link rel="stylesheet" href="{{ asset('storage/datatables/DataTables-1.10.16/css/jquery.dataTables.min.css') }}" crossorigin="anonymous" />

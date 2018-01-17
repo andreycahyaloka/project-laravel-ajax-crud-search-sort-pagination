@@ -14,22 +14,26 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::group(['prefix' => 'guest'], function() {
-	Route::get('/', 'GuestController@index')->name('guest.index');
+Route::group(['prefix' => ''], function() {
+	// Route::get('/', 'GuestController@index')->name('guest.index');
 	
-	Route::get('/indexajax', 'GuestController@indexAjax')->name('guest.indexajax');
+	// Route::get('/indexajax', 'GuestController@indexAjax')->name('guest.indexajax');
 	
-	Route::post('/storeajax', 'GuestController@storeAjax')->name('guest.storeajax');
+	// Route::post('/storeajax', 'GuestController@storeAjax')->name('guest.storeajax');
 
-	Route::get('/showajax/{id}', 'GuestController@showAjax')->name('guest.showAjax');
+	// Route::get('/showajax/{id}', 'GuestController@showAjax')->name('guest.showAjax');
 
-	Route::get('/editajax/{id}', 'GuestController@editAjax')->name('guest.editajax');
-	Route::put('/updateajax/{id}', 'GuestController@updateAjax')->name('guest.updateajax');
+	// Route::get('/editajax/{id}', 'GuestController@editAjax')->name('guest.editajax');
+	// Route::put('/updateajax/{id}', 'GuestController@updateAjax')->name('guest.updateajax');
 
-	Route::get('/deleteajax/{id}', 'GuestController@deleteAjax')->name('guest.deleteajax');
-	Route::delete('/destroyajax/{id}', 'GuestController@destroyAjax')->name('guest.destroyajax');
+	// Route::get('/deleteajax/{id}', 'GuestController@deleteAjax')->name('guest.deleteajax');
+	// Route::delete('/destroyajax/{id}', 'GuestController@destroyAjax')->name('guest.destroyajax');
 
-	// Route::resource('posts', 'GuestController');
+	Route::resource('post', 'GuestController', [
+		'except' => ['create', 'show']
+	]);
+
+	Route::get('api/post', 'GuestController@apiPost')->name('api.post');
 });
 
 // Auth::routes();

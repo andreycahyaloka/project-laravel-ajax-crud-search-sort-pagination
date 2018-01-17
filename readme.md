@@ -14,11 +14,11 @@ jquery <br />
 font_awesome <br />
 4.7.0 <br />
 
-// datatables <br />
-// 1.10.16 <br />
+datatables <br />
+1.10.16 <br />
 
-// composer require yajra/laravel-datatables-oracle:"~8.0" <br />
-// 8.3.2 <br />
+composer require yajra/laravel-datatables-oracle:"~8.0" <br />
+8.3.2 <br />
 
 
 

@@ -129,7 +129,7 @@
 /* demo pagination */
 	.pagination {
 		justify-content: center;
-		margin-top: 10px;
-		margin-bottom: 10px;
+		/* margin-top: 10px; */
+		/* margin-bottom: 10px; */
 	}
 </style>

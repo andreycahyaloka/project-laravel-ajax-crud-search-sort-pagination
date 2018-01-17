@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Post;
-use Session;
+use Yajra\DataTables\Datatables;
+// use Session;
 use Validator;
 // use Response;
 // use Illuminate\Support\Facades\Input;
@@ -21,27 +22,8 @@ class GuestController extends Controller
     public function index(Request $request)
     {
         //
-		$posts = Post::
-			orderBy('title', 'asc')
-			->paginate(10);
-
-		// diedump (dump and die)
-		// dd($data);
-
-		return view('/guests/index')
-			->withPosts($posts);
+		return view('/guests/index');
     }
-
-	public function indexAjax() {
-		try {
-			return Post::
-				orderBy('title', 'asc')
-				->get();
-		}
-		catch(Exception $e) {
-			return 'false';
-		}
-	}
 
     /**
      * Show the form for creating a new resource.
@@ -62,31 +44,23 @@ class GuestController extends Controller
     public function store(Request $request)
     {
         //
-    }
-
-	public function storeAjax(Request $request) {
-		// $this->validate($request, [
-		// 	'title' => 'required|string|min:6|max:100|unique:posts,title',
-		// 	'body' => 'required|string|min:6|max:255|unique:posts,body',
-		// ]);
-
 		$rules = [
-			'titleCreate' => 'required|string|min:6|max:100|unique:posts,title',
-			'bodyCreate' => 'required|string|min:6|max:255|unique:posts,body',
+			'title' => 'required|string|min:6|max:100|unique:posts,title',
+			'body' => 'required|string|min:6|max:255|unique:posts,body',
 		];
 
 		$rulesMessage = [
-			'titleCreate.required' => 'Title: can not be empty.',
-			'titleCreate.string' => 'Title: String only.',
-			'titleCreate.min' => 'Title: Minimum is 6 characters.',
-			'titleCreate.max' => 'Title: Maximum is 100 characters.',
-			'titleCreate.unique' => 'Title: already exist.',
+			'title.required' => 'Title: can not be empty.',
+			'title.string' => 'Title: String only.',
+			'title.min' => 'Title: Minimum is 6 characters.',
+			'title.max' => 'Title: Maximum is 100 characters.',
+			'title.unique' => 'Title: already exist.',
 
-			'bodyCreate.required' => 'Body: can not be empty.',
-			'bodyCreate.string' => 'Body: String only.',
-			'bodyCreate.min' => 'Body: Minimum is 6 characters.',
-			'bodyCreate.max' => 'Body: Maximum is 100 characters.',
-			'bodyCreate.unique' => 'Body: already exist.',
+			'body.required' => 'Body: can not be empty.',
+			'body.string' => 'Body: String only.',
+			'body.min' => 'Body: Minimum is 6 characters.',
+			'body.max' => 'Body: Maximum is 100 characters.',
+			'body.unique' => 'Body: already exist.',
 		];
 
 		$validators = Validator::make($request->all(), $rules, $rulesMessage);
@@ -95,20 +69,13 @@ class GuestController extends Controller
 			return response($validators->errors(), 401);
 		}
 
-		try {
-			$posts = new Post();
+		$posts = [
+			'title' => $request['title'],
+			'body' => $request['body'],
+		];
 
-			$posts->title = $request->titleCreate;
-			$posts->body = $request->bodyCreate;
-
-			$posts->save();
-
-			return 'true';
-		}
-		catch(Exception $e) {
-			return 'false';
-		}
-	}
+		return Post::create($posts);
+    }
 
     /**
      * Display the specified resource.
@@ -121,10 +88,6 @@ class GuestController extends Controller
         //
     }
 
-	public function showAjax($id) {
-		// 
-	}
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -134,16 +97,10 @@ class GuestController extends Controller
     public function edit($id)
     {
         //
-    }
+		$posts = Post::find($id);
 
-	public function editAjax($id) {
-		try{ 
-			return Post::find($id);
-		}
-		catch(Exception $e) {
-			return 'false';
-		}
-	}
+		return $posts;
+    }
 
     /**
      * Update the specified resource in storage.
@@ -155,26 +112,23 @@ class GuestController extends Controller
     public function update(Request $request, $id)
     {
         //
-    }
-
-	public function updateAjax(Request $request, $id) {
 		$rules = [
-			'titleEdit' => "required|string|min:6|max:100|unique:posts,title,$id",
-			'bodyEdit' => 'required|string|min:6|max:255|unique:posts,body,'.$id,
+			'title' => "required|string|min:6|max:100|unique:posts,title,$id",
+			'body' => 'required|string|min:6|max:255|unique:posts,body,'.$id,
 		];
 
 		$rulesMessage = [
-			'titleEdit.required' => 'Title: can not be empty.',
-			'titleEdit.string' => 'Title: String only.',
-			'titleEdit.min' => 'Title: Minimum is 6 characters.',
-			'titleEdit.max' => 'Title: Maximum is 100 characters.',
-			'titleEdit.unique' => 'Title: already exist.',
+			'title.required' => 'Title: can not be empty.',
+			'title.string' => 'Title: String only.',
+			'title.min' => 'Title: Minimum is 6 characters.',
+			'title.max' => 'Title: Maximum is 100 characters.',
+			'title.unique' => 'Title: already exist.',
 
-			'bodyEdit.required' => 'Body: can not be empty.',
-			'bodyEdit.string' => 'Body: String only.',
-			'bodyEdit.min' => 'Body: Minimum is 6 characters.',
-			'bodyEdit.max' => 'Body: Maximum is 100 characters.',
-			'bodyEdit.unique' => 'Body: already exist.',
+			'body.required' => 'Body: can not be empty.',
+			'body.string' => 'Body: String only.',
+			'body.min' => 'Body: Minimum is 6 characters.',
+			'body.max' => 'Body: Maximum is 100 characters.',
+			'body.unique' => 'Body: already exist.',
 		];
 
 		$validators = Validator::make($request->all(), $rules, $rulesMessage);
@@ -183,20 +137,14 @@ class GuestController extends Controller
 			return response($validators->errors(), 401);
 		}
 
-		try {
-			$posts = Post::find($id);
+		$posts = Post:: find($id);
 
-			$posts->title = $request->titleEdit;
-			$posts->body = $request->bodyEdit;
+		$posts->title = $request['title'];
+		$posts->body = $request['body'];
+		$posts->update();
 
-			$posts->save();
-
-			return 'true';
-		}
-		catch(Exception $e) {
-			return 'false';
-		}
-	}
+		return $posts;
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -207,24 +155,17 @@ class GuestController extends Controller
     public function destroy($id)
     {
         //
+		Post::destroy($id);
     }
 
-	public function deleteAjax($id) {
-		try{ 
-			return Post::find($id);
-		}
-		catch(Exception $e) {
-			return 'false';
-		}
-	}
+	public function apiPost() {
+		$posts = Post::all();
 
-	public function destroyAjax($id) {
-		try {
-			Post::destroy($id);
-			return 'true';
-		}
-		catch(Exception $e) {
-			return 'false';
-		}
+		return Datatables::of($posts)
+			->addColumn('action', function($posts) {
+				return '<a href="#" class="btn btn-outline-info btn-sm" style="width: 40px; margin: 0px 5px;"><i class="fa fa-eye"></i></a>'.
+						'<a class="btn btn-outline-primary btn-sm" style="width: 40px; margin: 0px 5px;" onclick="editForm('.$posts->id.')"><i class="fa fa-edit"></i></a>'.
+						'<a class="btn btn-outline-danger btn-sm" style="width: 40px; margin: 0px 5px;" onclick="deleteData('.$posts->id.')"><i class="fa fa-trash"></i></a>';
+			})->make(true);
 	}
 }

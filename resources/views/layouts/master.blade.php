@@ -7,7 +7,6 @@
 
 <body>
 	@include('layouts._nav')
-	@include('layouts._aside')
 
 		<!-- session flash message -->
 		@include('layouts._messages')
